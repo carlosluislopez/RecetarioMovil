@@ -1,6 +1,9 @@
 package recetariomovil.app;
 
 import android.app.Activity;
+import android.graphics.Bitmap;
+import android.graphics.Canvas;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -17,9 +20,12 @@ import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
+
+import android.content.Intent;
 
 import recetariomovil.app.R;
 
@@ -68,10 +74,30 @@ public class MainActivity extends Activity {
 
         gridView.setOnItemClickListener(new OnItemClickListener() {
             public void onItemClick(AdapterView<?> parent, View view,int position, long id) {
+                ImageView img = (ImageView) view.findViewById(R.id.imageView1);
+
+                Drawable d = img.getDrawable();
+                Bitmap bmap = Bitmap.createBitmap(d.getIntrinsicWidth(), d.getIntrinsicHeight(), Bitmap.Config.ARGB_8888);
+                Canvas canvas = new Canvas(bmap);
+                d.draw(canvas);
+
+                //Bitmap bmap = Bitmap.createBitmap(img.getDrawingCache());
+
+                ByteArrayOutputStream stream = new ByteArrayOutputStream();
+                bmap.compress(Bitmap.CompressFormat.JPEG, 100, stream);
+                byte[] byteArray = stream.toByteArray();
+
+                lanzar(view, byteArray);
                 Toast.makeText(MainActivity.this, ((TextView) view.findViewById(R.id.textView1)).getText() + " Seleccionada", Toast.LENGTH_SHORT).show();
             }
         });
 
+    }
+
+    public void lanzar(View view, byte[] byteArray) {
+        Intent i = new Intent(this, DetailActivity.class );
+        i.putExtra("data", byteArray);
+        startActivity(i);
     }
 
 

@@ -71,7 +71,7 @@ public class GalleryAdapter extends BaseAdapter
 
         if (imagenesEscaladas.get(position) == null)
         {
-            Bitmap bitmap = BitmapUtils.decodeSampledBitmapFromResource(context.getResources(), imagenes[position], 180, 180);
+            Bitmap bitmap = BitmapUtils.decodeSampledBitmapFromResource(context.getResources(), imagenes[position], 120, 120);
             imagenesEscaladas.put(position, bitmap);
 
             //imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
