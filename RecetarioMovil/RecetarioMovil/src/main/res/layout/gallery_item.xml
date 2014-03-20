@@ -6,17 +6,59 @@
     android:orientation="horizontal"
     android:gravity="left">
 
-    <ImageView
-        android:id="@+id/imageView1"
+    <LinearLayout
+        android:orientation="vertical"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:src="@drawable/ic_launcher" />
+        android:layout_height="101dp">
 
-    <TextView
-        android:id="@+id/textView1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:visibility="visible"
-        android:text="Receta" />
+        <ImageView
+            android:id="@+id/imgReceta"
+            android:layout_width="72dp"
+            android:layout_height="78dp"
+            android:src="@drawable/ic_launcher"
+            android:focusable="false" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:text="Clic en la imagen"
+            android:id="@+id/txtPresiona"
+            android:textSize="10dp" />
+    </LinearLayout>
+
+    <Space
+        android:layout_width="20px"
+        android:layout_height="20px" />
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/txtCategoria"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Categoria Receta"
+            android:textIsSelectable="false"
+            android:textStyle="bold"
+            android:textSize="18dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Nombre Receta"
+            android:id="@+id/txtReceta"
+            android:textIsSelectable="false"
+            android:textSize="16dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Usuario Receta"
+            android:id="@+id/txtUsuario" />
+
+    </LinearLayout>
 
 </LinearLayout>
