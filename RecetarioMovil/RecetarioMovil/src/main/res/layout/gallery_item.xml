@@ -57,7 +57,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Usuario Receta"
-            android:id="@+id/txtUsuario" />
+            android:id="@+id/txtUsuario"
+            android:textSize="12dp" />
 
     </LinearLayout>
 

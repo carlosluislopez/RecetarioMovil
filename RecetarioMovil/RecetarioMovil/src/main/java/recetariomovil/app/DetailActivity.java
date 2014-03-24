@@ -10,6 +10,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.graphics.Bitmap;
+import android.widget.TextView;
 
 public class DetailActivity extends Activity {
 
@@ -23,6 +24,20 @@ public class DetailActivity extends Activity {
 
         ImageView img = (ImageView)findViewById(R.id.imgFoto);
         img.setImageBitmap(bmap);
+
+        TextView txtCategoria = (TextView)findViewById(R.id.txtCategoria);
+        txtCategoria.setText(bundle.get("Categoria").toString());
+
+
+        TextView txtReceta = (TextView)findViewById(R.id.txtReceta);
+        txtReceta.setText(bundle.get("Receta").toString());
+
+        TextView txtDescripcion = (TextView)findViewById(R.id.txtDescripcion);
+        txtDescripcion.setText(bundle.get("Descripcion").toString());
+
+        String usuario = bundle.get("Usuario").toString() + " - " + bundle.get("UsuarioNombre").toString();
+        TextView txtUsuario = (TextView)findViewById(R.id.txtUsuario);
+        txtUsuario.setText(usuario);
 
         Button btnCerrar = (Button)findViewById(R.id.btnVolver);
         btnCerrar.setOnClickListener(new View.OnClickListener() {

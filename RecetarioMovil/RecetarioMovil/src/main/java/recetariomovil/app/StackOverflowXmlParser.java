@@ -72,6 +72,7 @@ public class StackOverflowXmlParser
         String UsuarioNombre = null;
         float Clasificacion = 0;
         Date Fecha = null;
+        int Longitud = 0;
         byte[] Foto = null;
 
         while (parser.next() != XmlPullParser.END_TAG) {
@@ -97,12 +98,15 @@ public class StackOverflowXmlParser
                 Clasificacion = readClasificacion(parser);
             } else if (name.equals("Foto")) {
                 Foto = readFoto(parser);
+            } else if (name.equals("Longitud")) {
+                Longitud = readLongitud(parser);
             } else {
                 skip(parser);
             }
         }
-        //Recipe Receta = new Recipe(Nombre, Descripcion, Clasificacion, Usuario, Categoria, Fecha, Foto);
-        return new Recipe(Id, Categoria, Nombre, Descripcion, Fecha, Usuario, UsuarioNombre, Clasificacion, Foto);
+        //Recipe Receta = new Recipe(Nombre, Descripcion, Clasificacion, Usuario, Categoria, Fecha, Foto, Longitud);
+        return new Recipe(Id, Categoria, Nombre, Descripcion, Fecha, Usuario, UsuarioNombre, Clasificacion, Foto, Longitud);
+
     }
 
     // Processes title tags in the feed.
@@ -167,7 +171,16 @@ public class StackOverflowXmlParser
         parser.require(XmlPullParser.START_TAG, ns, "Foto");
         String Foto = readText(parser);
         parser.require(XmlPullParser.END_TAG, ns, "Foto");
-        return Foto.getBytes();
+        return Foto.getBytes("UTF-16");
+        //return Foto.getBytes();
+    }
+
+    private int readLongitud(XmlPullParser parser) throws IOException, XmlPullParserException
+    {
+        parser.require(XmlPullParser.START_TAG, ns, "Longitud");
+        String Longitud = readText(parser);
+        parser.require(XmlPullParser.END_TAG, ns, "Longitud");
+        return Integer.parseInt(Longitud);
     }
 
     private Date readFecha(XmlPullParser parser) throws IOException, XmlPullParserException

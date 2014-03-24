@@ -21,14 +21,15 @@
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
-            android:layout_alignParentEnd="true"
-            android:layout_weight="0.06">
+            android:layout_alignParentEnd="true">
 
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/imgFoto"
-                android:src="@drawable/sample_0" />
+                android:src="@drawable/sample_0"
+                android:minHeight="150dp"
+                android:minWidth="150dp" />
 
             <LinearLayout
                 android:orientation="vertical"
@@ -46,7 +47,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:id="@+id/textView2"
+                    android:id="@+id/txtCategoria"
                     android:singleLine="false"
                     android:text="Postre"
                     android:textSize="20dp" />
@@ -67,7 +68,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Helado de Chocolate"
-                    android:id="@+id/textView4"
+                    android:id="@+id/txtReceta"
                     android:textSize="20dp" />
             </LinearLayout>
 
@@ -78,8 +79,18 @@
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceLarge"
             android:text="Descripcion de la Receta"
-            android:id="@+id/textView5"
+            android:id="@+id/txtDescripcion"
             android:layout_gravity="center_vertical" />
+
+        <Space
+            android:layout_width="20px"
+            android:layout_height="20px" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="UserName"
+            android:id="@+id/txtUsuario" />
 
         <Space
             android:layout_width="20px"

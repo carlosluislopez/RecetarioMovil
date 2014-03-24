@@ -9,7 +9,9 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Adapter;
 import android.widget.AdapterView;
+import android.widget.BaseAdapter;
 import android.widget.EditText;
 import android.widget.GridView;
 import android.widget.Toast;
@@ -40,6 +42,8 @@ public class MainActivity extends Activity {
     Gallery gallery;
     public static String rslt="";
     List<Recipe> recetas;
+    BaseAdapter mMyAdapter;
+    GridView gridView;
 
 
     @Override
@@ -55,25 +59,31 @@ public class MainActivity extends Activity {
                 R.drawable.sample_6, R.drawable.sample_7
         };
         */
-        GridView gridView = (GridView) findViewById(R.id.grdRecetas);
-        cargarDatos(gridView);
+        this.gridView = (GridView) findViewById(R.id.grdRecetas);
+        cargarDatos();
 
         gridView.setOnItemClickListener(new OnItemClickListener() {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 ImageView img = (ImageView) view.findViewById(R.id.imgReceta);
+                TextView txtCategoria = (TextView) view.findViewById(R.id.txtCategoria);
+                TextView txtReceta = (TextView) view.findViewById(R.id.txtReceta);
+                TextView txtUsuario = (TextView) view.findViewById(R.id.txtUsuario);
 
                 Drawable d = img.getDrawable();
-                Bitmap bmap = Bitmap.createBitmap(d.getIntrinsicWidth(), d.getIntrinsicHeight(), Bitmap.Config.ARGB_8888);
-                Canvas canvas = new Canvas(bmap);
-                d.draw(canvas);
+                byte[] byteArray = null;
+                try{
+                    Bitmap bmap = Bitmap.createBitmap(d.getIntrinsicWidth(), d.getIntrinsicHeight(), Bitmap.Config.ARGB_8888);
+                    ByteArrayOutputStream stream = new ByteArrayOutputStream();
+                    bmap.compress(Bitmap.CompressFormat.JPEG, 100, stream);
 
-                //Bitmap bmap = Bitmap.createBitmap(img.getDrawingCache());
+                    byteArray = stream.toByteArray();
 
-                ByteArrayOutputStream stream = new ByteArrayOutputStream();
-                bmap.compress(Bitmap.CompressFormat.JPEG, 100, stream);
-                byte[] byteArray = stream.toByteArray();
+                    Canvas canvas = new Canvas(bmap);
+                    d.draw(canvas);
+                }catch (Exception ex){}
 
-                lanzar(view, byteArray);
+                lanzar(view, recetas.get(position), byteArray);
+
                 //Toast.makeText(MainActivity.this, ((TextView) view.findViewById(R.id.txtCategoria)).getText() + " Seleccionada", Toast.LENGTH_SHORT).show();
             }
         });
@@ -81,38 +91,47 @@ public class MainActivity extends Activity {
 
     }
 
-    public void lanzar(View view, byte[] byteArray) {
+    public void lanzar(View view, Recipe Receta, byte[] byteArray) {
         Intent i = new Intent(this, DetailActivity.class );
-        i.putExtra("data", byteArray);
+        i.putExtra("Categoria", Receta.Categoria);
+        i.putExtra("Receta", Receta.Nombre);
+        i.putExtra("Descripcion", Receta.Descripcion);
+        i.putExtra("Usuario", Receta.Usuario);
+        i.putExtra("UsuarioNombre", Receta.UsuarioNombre);
+        i.putExtra("Rating", Receta.UsuarioNombre);
+        i.putExtra("data", Receta.Foto);
+        i.putExtra("Longitud", Receta.Longitud);
         startActivity(i);
     }
 
-    public void cargarDatos(GridView gridView){
+    public void cargarDatos(){
         //el número de columnas se calculará en función del tamaño de pantalla y la posición
         boolean bigScreen = (getResources().getConfiguration().screenLayout & Configuration.SCREENLAYOUT_SIZE_MASK) >= Configuration.SCREENLAYOUT_SIZE_LARGE;
         if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE)
         {
             if (bigScreen)
             {
-                gridView.setNumColumns(3);
+                this.gridView.setNumColumns(3);
             }
             else
             {
-                gridView.setNumColumns(2);
+                this.gridView.setNumColumns(2);
             }
         }
         else
         {
             if (bigScreen)
             {
-                gridView.setNumColumns(2);
+                this.gridView.setNumColumns(2);
             }
             else
             {
-                gridView.setNumColumns(1);
+                this.gridView.setNumColumns(1);
             }
         }
-        gridView.setAdapter(new GalleryAdapter(this, recetas));
+        traerDatos();
+        this.mMyAdapter = new GalleryAdapter(this, recetas);
+        gridView.setAdapter(mMyAdapter);
     }
 
 
@@ -138,6 +157,19 @@ public class MainActivity extends Activity {
 
     public void onClick(View arg0)
     {
+        this.traerDatos();
+        ((GalleryAdapter)this.mMyAdapter).Recetas = this.recetas;
+        final AlertDialog ad = new AlertDialog.Builder(this).create();
+        try{
+            this.mMyAdapter.notifyDataSetChanged();
+        }catch (Exception ex){
+            ad.setTitle("Error!");
+            ad.setMessage(ex.toString());
+            ad.show();
+        }
+    }
+
+    public void traerDatos(){
         final AlertDialog ad = new AlertDialog.Builder(this).create();
         Caller c = new Caller();
         try
@@ -165,9 +197,11 @@ public class MainActivity extends Activity {
         {
             ad.setTitle("Error!");
             ad.setMessage(ex.toString());
+            ad.show();
         }
         this.recetas = c.recetas;
-        cargarDatos((GridView) findViewById(R.id.grdRecetas));
+
+        //cargarDatos((GridView) findViewById(R.id.grdRecetas));
     }
 
     public class Caller  extends Thread
@@ -181,7 +215,7 @@ public class MainActivity extends Activity {
             try
             {
                 cs = new CallSoap();
-                recetas = cs.Call(search);
+                this.recetas = cs.Call(search);
                 MainActivity.rslt = "Datos";
             }
             catch(Exception ex)

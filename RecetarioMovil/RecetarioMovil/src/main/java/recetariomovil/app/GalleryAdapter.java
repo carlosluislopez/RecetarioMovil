@@ -84,13 +84,17 @@ public class GalleryAdapter extends BaseAdapter
         if(Recetas != null){
             if(Recetas.get(position) != null)
             {
-                Bitmap bmap = BitmapFactory.decodeByteArray(Recetas.get(position).Foto, 0, Recetas.get(position).Foto.length);
-                holder.getImage().setImageBitmap(bmap);
-                holder.getImage().setScaleType(ImageView.ScaleType.CENTER_CROP);
-                holder.getImage().setPadding(5, 5, 5, 5);
                 holder.getCategoria().setText(Recetas.get(position).Categoria);
                 holder.getReceta().setText(Recetas.get(position).Nombre);
                 holder.getUsuario().setText(Recetas.get(position).Usuario);
+                try{
+
+                    Bitmap bmap = BitmapFactory.decodeByteArray(Recetas.get(position).Foto, 0, Recetas.get(position).Foto.length);
+                    holder.getImage().setImageBitmap(bmap);
+                    holder.getImage().setScaleType(ImageView.ScaleType.CENTER_CROP);
+                    holder.getImage().setPadding(5, 5, 5, 5);
+
+                }catch (Exception ex){ }
             }
         }
 
