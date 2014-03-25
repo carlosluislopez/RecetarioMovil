@@ -24,12 +24,18 @@
             android:layout_alignParentEnd="true">
 
             <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="150dp"
+                android:layout_height="150dp"
                 android:id="@+id/imgFoto"
                 android:src="@drawable/sample_0"
                 android:minHeight="150dp"
-                android:minWidth="150dp" />
+                android:minWidth="150dp"
+                android:maxWidth="150dp"
+                android:maxHeight="150dp" />
+
+            <Space
+                android:layout_width="20px"
+                android:layout_height="20px" />
 
             <LinearLayout
                 android:orientation="vertical"

@@ -19,14 +19,14 @@ public class Recipe
     public String Usuario;
     public String UsuarioNombre;
     public float Clasificacion;
-    public byte[] Foto;
+    public Bitmap Foto;
     public int Longitud;
 
     public Recipe()
     {
     }
 
-    public Recipe(int id, String categoria, String nombre, String descripcion, Date fecha, String usuario, String usuarioNombre, float clasificacion, byte[] foto, int longitud) {
+    public Recipe(int id, String categoria, String nombre, String descripcion, Date fecha, String usuario, String usuarioNombre, float clasificacion, Bitmap foto, int longitud) {
         Id = id;
         Categoria = categoria;
         Nombre = nombre;

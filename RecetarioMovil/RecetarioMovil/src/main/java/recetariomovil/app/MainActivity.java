@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
+import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.Menu;
@@ -65,13 +66,17 @@ public class MainActivity extends Activity {
         gridView.setOnItemClickListener(new OnItemClickListener() {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 ImageView img = (ImageView) view.findViewById(R.id.imgReceta);
-                TextView txtCategoria = (TextView) view.findViewById(R.id.txtCategoria);
-                TextView txtReceta = (TextView) view.findViewById(R.id.txtReceta);
-                TextView txtUsuario = (TextView) view.findViewById(R.id.txtUsuario);
 
                 Drawable d = img.getDrawable();
                 byte[] byteArray = null;
                 try{
+
+                    Bitmap bitmap = ((BitmapDrawable)d).getBitmap();
+                    ByteArrayOutputStream stream = new ByteArrayOutputStream();
+                    bitmap.compress(Bitmap.CompressFormat.JPEG, 100, stream);
+                    byteArray = stream.toByteArray();
+
+                    /*
                     Bitmap bmap = Bitmap.createBitmap(d.getIntrinsicWidth(), d.getIntrinsicHeight(), Bitmap.Config.ARGB_8888);
                     ByteArrayOutputStream stream = new ByteArrayOutputStream();
                     bmap.compress(Bitmap.CompressFormat.JPEG, 100, stream);
@@ -80,6 +85,7 @@ public class MainActivity extends Activity {
 
                     Canvas canvas = new Canvas(bmap);
                     d.draw(canvas);
+                    */
                 }catch (Exception ex){}
 
                 lanzar(view, recetas.get(position), byteArray);
@@ -99,7 +105,7 @@ public class MainActivity extends Activity {
         i.putExtra("Usuario", Receta.Usuario);
         i.putExtra("UsuarioNombre", Receta.UsuarioNombre);
         i.putExtra("Rating", Receta.UsuarioNombre);
-        i.putExtra("data", Receta.Foto);
+        i.putExtra("data", byteArray);
         i.putExtra("Longitud", Receta.Longitud);
         startActivity(i);
     }

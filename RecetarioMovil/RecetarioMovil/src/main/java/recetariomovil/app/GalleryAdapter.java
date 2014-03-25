@@ -89,8 +89,8 @@ public class GalleryAdapter extends BaseAdapter
                 holder.getUsuario().setText(Recetas.get(position).Usuario);
                 try{
 
-                    Bitmap bmap = BitmapFactory.decodeByteArray(Recetas.get(position).Foto, 0, Recetas.get(position).Foto.length);
-                    holder.getImage().setImageBitmap(bmap);
+                    //Bitmap bmap = BitmapFactory.decodeByteArray(Recetas.get(position).Foto, 0, Recetas.get(position).Foto.length);
+                    holder.getImage().setImageBitmap(Recetas.get(position).Foto);
                     holder.getImage().setScaleType(ImageView.ScaleType.CENTER_CROP);
                     holder.getImage().setPadding(5, 5, 5, 5);
 

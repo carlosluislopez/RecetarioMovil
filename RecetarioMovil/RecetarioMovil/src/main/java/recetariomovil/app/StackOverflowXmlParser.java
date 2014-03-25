@@ -1,5 +1,7 @@
 package recetariomovil.app;
 
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.util.Xml;
 
 import org.xmlpull.v1.XmlPullParser;
@@ -7,6 +9,8 @@ import org.xmlpull.v1.XmlPullParserException;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -73,7 +77,7 @@ public class StackOverflowXmlParser
         float Clasificacion = 0;
         Date Fecha = null;
         int Longitud = 0;
-        byte[] Foto = null;
+        Bitmap Foto = null;
 
         while (parser.next() != XmlPullParser.END_TAG) {
             if (parser.getEventType() != XmlPullParser.START_TAG) {
@@ -166,12 +170,27 @@ public class StackOverflowXmlParser
         return Float.parseFloat(clasificacion);
     }
 
-    private byte[] readFoto(XmlPullParser parser) throws IOException, XmlPullParserException
+    private Bitmap readFoto(XmlPullParser parser) throws IOException, XmlPullParserException
     {
         parser.require(XmlPullParser.START_TAG, ns, "Foto");
         String Foto = readText(parser);
         parser.require(XmlPullParser.END_TAG, ns, "Foto");
-        return Foto.getBytes("UTF-16");
+
+        Bitmap b = null;
+        try {
+            b = BitmapFactory.decodeStream((InputStream) new URL(Foto).getContent());
+        }
+        catch (MalformedURLException e) {
+            e.printStackTrace();
+        }
+        catch (IOException e) {
+            e.printStackTrace();
+        }
+        return b;
+
+        //Bitmap image = BitmapFactory.decodeStream(url.openStream());
+        ///return image;
+        //return Foto.getBytes("UTF-16");
         //return Foto.getBytes();
     }
 
